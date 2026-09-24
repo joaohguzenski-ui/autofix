@@ -28,7 +28,7 @@ ON DELETE CASCADE
 
 );
 
- create table ordens_serviço (
+ create table ordens_servico (
    id serial primary key,
   veiculo_id INT NOT NULL,
     mecanico_id INT NOT NULL,
