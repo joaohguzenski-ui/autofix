@@ -1,5 +1,3 @@
-create table clientes (
-id serial primary key,
 nome VARCHAR(100) NOT NULL,
 email VARCHAR(100) UNIQUE NOT NULL,
 telefone VARCHAR(20) NOT NULL,
@@ -73,17 +71,19 @@ INSERT INTO veiculos (cliente_id, placa, modelo, marca, ano) VALUES
 (2, 'KLR4M55', 'Corolla 2.0', 'Toyota', 2021),    -- Veículo 3 (Roberto)
 (3, 'JHG8T77', 'Onix 1.0 Turbo', 'Chevrolet', 2022);-- Veículo 4 (Amanda)
 
-  SELECT 
+CREATE VIEW
+  select 
     v.marca,
     v.modelo,
     v.placa,
     v.ano,
     c.nome AS proprietario,
     c.telefone
-FROM veiculos v
+FROM veiculos
 INNER JOIN clientes c ON v.cliente_id = c.id
 ORDER BY v.marca ASC, v.modelo ASC;
 
+CREATE VIEW
 SELECT 
     os.id AS os_id,
     v.placa,
@@ -98,6 +98,7 @@ INNER JOIN mecanicos m ON os.mecanico_id = m.id
 WHERE c.nome = 'Fernanda Lima'
 ORDER BY os.data_abertura DESC;
 
+CREATE VIEW
 SELECT 
     os.id AS os_id,
     v.placa,
@@ -112,6 +113,7 @@ LEFT JOIN pecas_os p ON os.id = p.os_id
 GROUP BY os.id, v.placa, m.nome, os.valor_mao_obra
 ORDER BY os.id;
 
+CREATE VIEW
 SELECT 
     nome AS mecanico,
     especialidade,
@@ -120,7 +122,8 @@ FROM mecanicos
 WHERE valor_hora > 90.00
 ORDER BY valor_hora DESC;
 
-SELECT 
+CREATE VIEW
+SELECT
     m.especialidade,
     COUNT(os.id) AS qtd_servicos_concluidos,
     COALESCE(SUM(os.valor_mao_obra), 0.00) AS faturamento_mao_obra
