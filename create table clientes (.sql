@@ -60,7 +60,7 @@ ON DELETE CASCADE
  INSERT INTO clientes (nome,email,telefone,cpf) VALUES
  ('Jair Bolsonaro,'jair.bolsonaro@gmail.com','(48)9911-233'),
  ('MrBeast Souza', 'MrBeast.souza@email.com', '(48) 98822-4455', '55566677788'),
-(' POUtinha', 'POUtinha.martins@email.com', '(48) 97733-6677', '99900011122');
+(' POU', 'POU.martins@email.com', '(48) 97733-6677', '99900011122');
 
 INSERT INTO mecanicos (nome, especialidade, valor_hora) VALUES 
 ('Carlos Eduardo', 'Motor e Câmbio', 120.00),
