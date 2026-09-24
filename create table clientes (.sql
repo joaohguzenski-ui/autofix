@@ -13,7 +13,7 @@ especialidade VARCHAR(50) NOT NULL,
 valor_hora NUMERIC(10,2)NOT NULL CHECK(valor_hora > 0)
 );
 
-create table veículos (
+create table veiculos (
 id serial primary key,
 cliente_id INT NOT NULL,
 placa VARCHAR(7) UNIQUE NOT NULL,
