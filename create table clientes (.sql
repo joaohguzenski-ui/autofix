@@ -72,3 +72,59 @@ INSERT INTO veiculos (cliente_id, placa, modelo, marca, ano) VALUES
 (1, 'XYZ9K88', 'Fit 1.5', 'Honda', 2018),         -- Veículo 2 (Fernanda)
 (2, 'KLR4M55', 'Corolla 2.0', 'Toyota', 2021),    -- Veículo 3 (Roberto)
 (3, 'JHG8T77', 'Onix 1.0 Turbo', 'Chevrolet', 2022);-- Veículo 4 (Amanda)
+
+  SELECT 
+    v.marca,
+    v.modelo,
+    v.placa,
+    v.ano,
+    c.nome AS proprietario,
+    c.telefone
+FROM veiculos v
+INNER JOIN clientes c ON v.cliente_id = c.id
+ORDER BY v.marca ASC, v.modelo ASC;
+
+SELECT 
+    os.id AS os_id,
+    v.placa,
+    v.modelo,
+    os.data_abertura,
+    m.nome AS mecanico,
+    os.status
+FROM ordens_servico os
+INNER JOIN veiculos v ON os.veiculo_id = v.id
+INNER JOIN clientes c ON v.cliente_id = c.id
+INNER JOIN mecanicos m ON os.mecanico_id = m.id
+WHERE c.nome = 'Fernanda Lima'
+ORDER BY os.data_abertura DESC;
+
+SELECT 
+    os.id AS os_id,
+    v.placa,
+    m.nome AS mecanico,
+    os.valor_mao_obra,
+    COALESCE(SUM(p.quantidade * p.valor_unitario), 0.00) AS total_pecas,
+    (os.valor_mao_obra + COALESCE(SUM(p.quantidade * p.valor_unitario), 0.00)) AS valor_total_os
+FROM ordens_servico os
+INNER JOIN veiculos v ON os.veiculo_id = v.id
+INNER JOIN mecanicos m ON os.mecanico_id = m.id
+LEFT JOIN pecas_os p ON os.id = p.os_id
+GROUP BY os.id, v.placa, m.nome, os.valor_mao_obra
+ORDER BY os.id;
+
+SELECT 
+    nome AS mecanico,
+    especialidade,
+    valor_hora
+FROM mecanicos
+WHERE valor_hora > 90.00
+ORDER BY valor_hora DESC;
+
+SELECT 
+    m.especialidade,
+    COUNT(os.id) AS qtd_servicos_concluidos,
+    COALESCE(SUM(os.valor_mao_obra), 0.00) AS faturamento_mao_obra
+FROM mecanicos m
+LEFT JOIN ordens_servico os ON m.id = os.mecanico_id AND os.status = 'Concluida'
+GROUP BY m.especialidade
+ORDER BY faturamento_mao_obra DESC;
